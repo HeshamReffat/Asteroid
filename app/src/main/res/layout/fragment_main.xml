@@ -28,6 +28,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                android:contentDescription="@{viewModel.imageOfDay.title}"
                 app:imageUrl="@{viewModel.imageOfDay}"
                 app:srcCompat="@drawable/placeholder_picture_of_day"/>
 
@@ -62,6 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:indeterminate="true"
+            app:apiStatus="@{viewModel.loading}"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
