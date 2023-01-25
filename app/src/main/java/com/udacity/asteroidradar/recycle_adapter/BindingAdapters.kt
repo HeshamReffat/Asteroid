@@ -8,6 +8,8 @@ import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
+import com.udacity.asteroidradar.api.Asteroid
+import com.udacity.asteroidradar.api.PictureOfDay
 import com.udacity.asteroidradar.main.ApiStatus
 import com.udacity.asteroidradar.recycle_adapter.AsteroidsListAdapter
 
@@ -53,20 +55,22 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
 }
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, img: PictureOfDay?) {
-    if(null != img) {
-        val imgUri = img.url.toUri().buildUpon().scheme("https").build()
-        Picasso.with(imgView.context)
-            .load(imgUri)
-            .placeholder(R.drawable.placeholder_picture_of_day)
-            .resize(50, 50)
-            .centerCrop()
-            .into(imgView)
-    }else{
-        Picasso.with(imgView.context)
-            .load(R.drawable.placeholder_picture_of_day)
-            .resize(50, 50)
-            .centerCrop()
-            .into(imgView)
+    if (img != null) {
+        if(img.url.isEmpty()) {
+            val imgUri = img.url.toUri().buildUpon().scheme("https").build()
+            Picasso.with(imgView.context)
+                .load(imgUri)
+                .placeholder(R.drawable.placeholder_picture_of_day)
+                .resize(50, 50)
+                .centerCrop()
+                .into(imgView)
+        }else{
+            Picasso.with(imgView.context)
+                .load(R.drawable.placeholder_picture_of_day)
+                .resize(50, 50)
+                .centerCrop()
+                .into(imgView)
+        }
     }
 }
 @BindingAdapter("apiStatus")

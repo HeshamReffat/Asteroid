@@ -4,7 +4,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.udacity.asteroidradar.Constants.BASE_URL
 import com.udacity.asteroidradar.Constants.apikey
-import com.udacity.asteroidradar.PictureOfDay
+import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -28,7 +28,7 @@ interface ServerSide {
         @Query("api_key") type: String = apikey,
         @Query("start_date") startDate: String = getNextSevenDaysFormattedDates().first(),
         @Query("end_date") endDate: String = getNextSevenDaysFormattedDates().last()
-    ): String
+    ): Deferred<String>
 
     @GET("planetary/apod")
     suspend fun getTodayImage(@Query("api_key") type: String = apikey): PictureOfDay

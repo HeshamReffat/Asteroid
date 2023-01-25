@@ -7,13 +7,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.udacity.asteroidradar.R
+import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.recycle_adapter.AsteroidsListAdapter
 
 class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = AsteroidDatabase.initDatabase(application).asteroidDao
+
+        val viewModelFactory = MainViewModelFactory(dataSource)
+
+        ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(

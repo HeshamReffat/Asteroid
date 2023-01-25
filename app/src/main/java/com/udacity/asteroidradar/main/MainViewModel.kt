@@ -1,40 +1,50 @@
 package com.udacity.asteroidradar.main
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.udacity.asteroidradar.Asteroid
-import com.udacity.asteroidradar.PictureOfDay
+import com.udacity.asteroidradar.api.Asteroid
+import com.udacity.asteroidradar.api.PictureOfDay
 import com.udacity.asteroidradar.api.PlanetaryApi
 import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
+import com.udacity.asteroidradar.database.AsteroidDao
+import com.udacity.asteroidradar.repository.Repo
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 
 enum class ApiStatus { LOADING, ERROR, DONE }
-class MainViewModel : ViewModel() {
+class MainViewModel(database: AsteroidDao) : ViewModel() {
+
+    private val repo = Repo(database)
+
     private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
     val navigateToSelectedAsteroid: LiveData<Asteroid>
         get() = _navigateToSelectedAsteroid
 
-    private val _planetaryList = MutableLiveData<List<Asteroid>>()
-    val planetaryList: LiveData<List<Asteroid>>
-        get() = _planetaryList
+    //  private val _planetaryList = MutableLiveData<List<Asteroid>>()
+    val planetaryList = repo.asteroidList
+
+    //    val planetaryList: LiveData<List<Asteroid>>
+//        get() = _planetaryList
     private val _imageOfDay = MutableLiveData<PictureOfDay>()
     val imageOfDay: LiveData<PictureOfDay>
         get() = _imageOfDay
     private val _loading = MutableLiveData<ApiStatus?>()
-    val loading : LiveData<ApiStatus?>
+    val loading: LiveData<ApiStatus?>
         get() = _loading
+
     private fun getAllPlanetary() {
         viewModelScope.launch {
             _loading.value = ApiStatus.LOADING
             try {
-                val ob = PlanetaryApi.retrofitService.getAllPlanetary()
-                val json = JSONObject(ob)
-                _planetaryList.value = parseAsteroidsJsonResult(json)
-                Log.i("cccccc", parseAsteroidsJsonResult(json).toString())
+                repo.syncAllData()
+//                val ob = PlanetaryApi.retrofitService.getAllPlanetary()
+//                val json = JSONObject(ob)
+//                _planetaryList.value = parseAsteroidsJsonResult(json)
+                //Log.i("cccccc", parseAsteroidsJsonResult(json).toString())
                 _loading.value = ApiStatus.DONE
             } catch (e: Exception) {
                 Log.i("cccccc", e.toString())
@@ -58,13 +68,16 @@ class MainViewModel : ViewModel() {
             }
         }
     }
+
     init {
         getAllPlanetary()
         getImageToday()
     }
-    fun navigateToAsteroidDetails(asteroid: Asteroid){
+
+    fun navigateToAsteroidDetails(asteroid: Asteroid) {
         _navigateToSelectedAsteroid.value = asteroid
     }
+
     fun navigateToAsteroidDetailsComplete() {
         _navigateToSelectedAsteroid.value = null
     }
