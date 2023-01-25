@@ -28,7 +28,7 @@ interface ServerSide {
         @Query("api_key") type: String = apikey,
         @Query("start_date") startDate: String = getNextSevenDaysFormattedDates().first(),
         @Query("end_date") endDate: String = getNextSevenDaysFormattedDates().last()
-    ): Deferred<String>
+    ): String
 
     @GET("planetary/apod")
     suspend fun getTodayImage(@Query("api_key") type: String = apikey): PictureOfDay

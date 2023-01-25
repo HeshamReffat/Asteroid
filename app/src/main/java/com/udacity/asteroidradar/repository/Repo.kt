@@ -21,7 +21,7 @@ class Repo(private val database: AsteroidDao) {
 
     suspend fun syncAllData() {
         withContext(Dispatchers.IO) {
-            val response = PlanetaryApi.retrofitService.getAllPlanetary().await()
+            val response = PlanetaryApi.retrofitService.getAllPlanetary()
             val asteroidList = parseAsteroidsJsonResult(JSONObject(response))
             database.insertAll(*asteroidList.asDatabaseModel())
         }

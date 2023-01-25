@@ -1,6 +1,5 @@
 package com.udacity.asteroidradar.main
 
-import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,11 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.api.Asteroid
 import com.udacity.asteroidradar.api.PictureOfDay
 import com.udacity.asteroidradar.api.PlanetaryApi
-import com.udacity.asteroidradar.api.parseAsteroidsJsonResult
 import com.udacity.asteroidradar.database.AsteroidDao
 import com.udacity.asteroidradar.repository.Repo
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 enum class ApiStatus { LOADING, ERROR, DONE }
 class MainViewModel(database: AsteroidDao) : ViewModel() {

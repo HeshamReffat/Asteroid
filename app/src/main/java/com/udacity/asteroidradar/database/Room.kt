@@ -3,7 +3,6 @@ package com.udacity.asteroidradar.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.squareup.moshi.JsonClass
 import com.udacity.asteroidradar.api.Asteroid
 
 @Database(entities = [AsteroidEntity::class], version = 1, exportSchema = false)
