@@ -14,11 +14,28 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 class Repo(private val database: AsteroidDao) {
-    val asteroidList: LiveData<List<Asteroid>> =
-        Transformations.map(database.getAsteroids(getNextSevenDaysFormattedDates().first())) {
-            it.asDomainModel()
-        }
 
+    fun getAllAsteroids(): LiveData<List<Asteroid>> {
+        val asteroid =
+            Transformations.map(database.getAsteroids(getNextSevenDaysFormattedDates().first())) {
+                it.asDomainModel()
+            }
+        return asteroid
+    }
+    fun getTodayAsteroids(): LiveData<List<Asteroid>> {
+        val asteroid =
+            Transformations.map(database.getTodayAsteroids(getNextSevenDaysFormattedDates().first())) {
+                it.asDomainModel()
+            }
+        return asteroid
+    }
+    fun getSavedAsteroids(): LiveData<List<Asteroid>> {
+        val asteroid =
+            Transformations.map(database.getSavedAsteroids()) {
+                it.asDomainModel()
+            }
+        return asteroid
+    }
     suspend fun syncAllData() {
         withContext(Dispatchers.IO) {
             val response = PlanetaryApi.retrofitService.getAllPlanetary()

@@ -22,7 +22,7 @@ class MainViewModel(database: AsteroidDao) : ViewModel() {
         get() = _navigateToSelectedAsteroid
 
     //  private val _planetaryList = MutableLiveData<List<Asteroid>>()
-    val planetaryList = repo.asteroidList
+    var planetaryList = repo.getAllAsteroids()
 
     //    val planetaryList: LiveData<List<Asteroid>>
 //        get() = _planetaryList
@@ -33,7 +33,7 @@ class MainViewModel(database: AsteroidDao) : ViewModel() {
     val loading: LiveData<ApiStatus?>
         get() = _loading
 
-    private fun getAllPlanetary() {
+    fun getAllPlanetary() {
         viewModelScope.launch {
             _loading.value = ApiStatus.LOADING
             try {
@@ -47,6 +47,18 @@ class MainViewModel(database: AsteroidDao) : ViewModel() {
                 Log.i("cccccc", e.toString())
                 _loading.value = ApiStatus.ERROR
             }
+        }
+    }
+
+    fun getTodayAsteroids() {
+        viewModelScope.launch {
+            planetaryList = repo.getTodayAsteroids()
+        }
+    }
+
+    fun getSavedAsteroids() {
+        viewModelScope.launch {
+            planetaryList = repo.getSavedAsteroids()
         }
     }
 

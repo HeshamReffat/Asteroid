@@ -10,14 +10,13 @@ import com.udacity.asteroidradar.R
 import com.udacity.asteroidradar.database.AsteroidDatabase
 import com.udacity.asteroidradar.databinding.FragmentMainBinding
 import com.udacity.asteroidradar.recycle_adapter.AsteroidsListAdapter
+import com.udacity.asteroidradar.repository.Repo
 
 class MainFragment : Fragment() {
-
     private val viewModel: MainViewModel by lazy {
         val application = requireNotNull(this.activity).application
 
         val dataSource = AsteroidDatabase.initDatabase(application).asteroidDao
-
         val viewModelFactory = MainViewModelFactory(dataSource)
 
         ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
@@ -52,6 +51,15 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val application = requireNotNull(this.activity).application
+
+        val dataSource = AsteroidDatabase.initDatabase(application).asteroidDao
+        val repo = Repo(dataSource)
+        when(item.itemId){
+            R.id.show_all_menu -> viewModel.getAllPlanetary()
+            R.id.show_rent_menu -> viewModel.getTodayAsteroids()
+            R.id.show_buy_menu -> viewModel.getSavedAsteroids()
+        }
         return true
     }
 }
