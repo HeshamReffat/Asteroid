@@ -18,9 +18,7 @@ class MainActivity : AppCompatActivity() {
                 .setRequiresBatteryNotLow(true)
                 .setRequiresCharging(true)
                 .apply {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        setRequiresDeviceIdle(true)
-                    }
+                    setRequiresDeviceIdle(true)
                 }.build()
             val timeInterval
                     = PeriodicWorkRequestBuilder<RefreshDataWorker>(1, TimeUnit.DAYS)

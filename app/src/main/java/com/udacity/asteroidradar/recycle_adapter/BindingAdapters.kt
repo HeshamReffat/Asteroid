@@ -56,7 +56,7 @@ fun bindRecyclerView(recyclerView: RecyclerView, data: List<Asteroid>?) {
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, img: PictureOfDay?) {
     if (img != null) {
-        if(img.url.isEmpty()) {
+        if(img.url.isNotEmpty()) {
             val imgUri = img.url.toUri().buildUpon().scheme("https").build()
             Picasso.with(imgView.context)
                 .load(imgUri)
