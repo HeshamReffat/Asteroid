@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.api
 
+import android.util.Log
 import com.udacity.asteroidradar.Constants
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -32,8 +33,10 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
                 val isPotentiallyHazardous = asteroidJson
                     .getBoolean("is_potentially_hazardous_asteroid")
 
-                val asteroid = Asteroid(id, codename, formattedDate, absoluteMagnitude,
-                    estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous)
+                val asteroid = Asteroid(
+                    id, codename, formattedDate, absoluteMagnitude,
+                    estimatedDiameter, relativeVelocity, distanceFromEarth, isPotentiallyHazardous
+                )
                 asteroidList.add(asteroid)
             }
         }
@@ -42,7 +45,7 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
     return asteroidList
 }
 
- fun getNextSevenDaysFormattedDates(): ArrayList<String> {
+fun getNextSevenDaysFormattedDates(): ArrayList<String> {
     val formattedDateList = ArrayList<String>()
 
     val calendar = Calendar.getInstance()
@@ -52,6 +55,6 @@ fun parseAsteroidsJsonResult(jsonResult: JSONObject): ArrayList<Asteroid> {
         formattedDateList.add(dateFormat.format(currentTime))
         calendar.add(Calendar.DAY_OF_YEAR, 1)
     }
-
+    Log.i("ssssss", formattedDateList.toString())
     return formattedDateList
 }

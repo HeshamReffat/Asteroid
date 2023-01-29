@@ -13,9 +13,9 @@ import com.udacity.asteroidradar.repository.Repo
 import kotlinx.coroutines.launch
 
 enum class ApiStatus { LOADING, ERROR, DONE }
-class MainViewModel(database: AsteroidDao) : ViewModel() {
+class MainViewModel(val repo: Repo) : ViewModel() {
 
-    private val repo = Repo(database)
+
 
     private val _navigateToSelectedAsteroid = MutableLiveData<Asteroid>()
     val navigateToSelectedAsteroid: LiveData<Asteroid>

@@ -17,7 +17,8 @@ class MainFragment : Fragment() {
         val application = requireNotNull(this.activity).application
 
         val dataSource = AsteroidDatabase.initDatabase(application).asteroidDao
-        val viewModelFactory = MainViewModelFactory(dataSource)
+        val repo = Repo(dataSource)
+        val viewModelFactory = MainViewModelFactory(repo)
 
         ViewModelProvider(this,viewModelFactory).get(MainViewModel::class.java)
     }
@@ -36,6 +37,7 @@ class MainFragment : Fragment() {
             AsteroidsListAdapter(AsteroidsListAdapter.OnClickListener {
                 viewModel.navigateToAsteroidDetails(it)
             })
+        binding.asteroidRecycler.invalidate()
         viewModel.navigateToSelectedAsteroid.observe(viewLifecycleOwner, Observer {
             if (null != it) {
                 this.findNavController().navigate(MainFragmentDirections.actionShowDetail(it))

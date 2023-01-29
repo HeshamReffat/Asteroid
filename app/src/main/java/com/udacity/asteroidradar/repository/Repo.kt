@@ -1,5 +1,6 @@
 package com.udacity.asteroidradar.repository
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import com.udacity.asteroidradar.api.Asteroid
@@ -32,6 +33,7 @@ class Repo(private val database: AsteroidDao) {
     fun getSavedAsteroids(): LiveData<List<Asteroid>> {
         val asteroid =
             Transformations.map(database.getSavedAsteroids()) {
+                Log.i("asteroidsssss",it.size.toString())
                 it.asDomainModel()
             }
         return asteroid
