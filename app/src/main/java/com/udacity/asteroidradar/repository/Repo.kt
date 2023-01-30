@@ -16,7 +16,7 @@ import org.json.JSONObject
 
 class Repo(private val database: AsteroidDao) {
 
-    fun getAllAsteroids(): LiveData<List<Asteroid>> {
+    fun getWeekAsteroids(): LiveData<List<Asteroid>> {
         val asteroid =
             Transformations.map(database.getAsteroids(getNextSevenDaysFormattedDates().first())) {
                 it.asDomainModel()

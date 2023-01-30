@@ -44,6 +44,7 @@ class MainFragment : Fragment() {
                 viewModel.navigateToAsteroidDetailsComplete()
             }
         })
+        binding.lifecycleOwner=this
         return binding.root
     }
 
@@ -53,12 +54,8 @@ class MainFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val application = requireNotNull(this.activity).application
-
-        val dataSource = AsteroidDatabase.initDatabase(application).asteroidDao
-        val repo = Repo(dataSource)
         when(item.itemId){
-            R.id.show_all_menu -> viewModel.getAllPlanetary()
+            R.id.show_all_menu -> viewModel.getWeekAsteroids()
             R.id.show_rent_menu -> viewModel.getTodayAsteroids()
             R.id.show_buy_menu -> viewModel.getSavedAsteroids()
         }
