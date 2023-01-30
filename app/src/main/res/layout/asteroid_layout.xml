@@ -52,6 +52,7 @@
             app:layout_constraintStart_toEndOf="@+id/nameView"
             app:layout_constraintTop_toTopOf="parent"
             app:statusIcon="@{asteroid.potentiallyHazardous}"
-            tools:srcCompat="@drawable/ic_status_normal" />
+            tools:srcCompat="@drawable/ic_status_normal"
+            android:contentDescription="this show the Hazardous of the asteroid if it's red then the asteroid is potential hazardous if its white then its normal hazardous" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
